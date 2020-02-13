@@ -11,7 +11,27 @@ import java.util.List;
 
 import com.Excilys.modeles.Computer;
 
-public class ComputerDAO {
+public final class ComputerDAO { 
+	
+	private static volatile ComputerDAO instance = null;
+	
+	private ComputerDAO() {
+
+		
+	}
+	public final static ComputerDAO getInstance() {
+   
+        if (ComputerDAO.instance == null) {
+     
+           synchronized(ComputerDAO.class) {
+             if (ComputerDAO.instance == null) {
+            	 ComputerDAO.instance = new ComputerDAO();
+             }
+           }
+        }
+        return ComputerDAO.instance;
+    }
+	
 
 	public Computer getComputer(int id) {
 		Connexion conn = new Connexion();
@@ -44,7 +64,7 @@ public class ComputerDAO {
 		Connexion conn = new Connexion();
 		Computer computer = new Computer();
 		conn.connect();
-		String delete = "DELETE FROM Computer WHERE id = ?";
+		String delete = "DELETE FROM computer WHERE id = ?";
 		try {
 			PreparedStatement preparedStatement = conn.getConn().prepareStatement(delete);
 			preparedStatement.setInt(1, id);
@@ -54,6 +74,7 @@ public class ComputerDAO {
 		} catch (SQLException e) {
 
 			return false;
+			
 		}
 	}
 
@@ -62,8 +83,9 @@ public class ComputerDAO {
 		Computer computer = new Computer();
 		conn.connect();
 		String update = "UPDATE Computer SET name=? , introduced =? ,discontinued =? ,company_id=? WHERE id = ?";
+		
 		try {
-
+			
 			PreparedStatement preparedStatement = conn.getConn().prepareStatement(update);
 			preparedStatement.setInt(1, id);
 			preparedStatement.setString(2, Name);
@@ -72,6 +94,7 @@ public class ComputerDAO {
 			preparedStatement.setInt(5, company_id);
 			preparedStatement.executeUpdate();
 			conn.closeConn();
+			
 			return true;
 
 		} catch (SQLException e) {
@@ -87,14 +110,15 @@ public class ComputerDAO {
 		conn.connect();
 		try {
 			PreparedStatement preparedStatement = conn.getConn().prepareStatement(insert);
-
+			
 			preparedStatement.setString(1, computer.getname());
-			preparedStatement.setDate(2, computer.getIntroduce());
-			preparedStatement.setDate(3, computer.getDiscontinuited());
-			preparedStatement.setInt(4,computer.getCompagnyId());
-			System.out.println(preparedStatement);
-			preparedStatement.executeUpdate();
+			preparedStatement.setDate(2, computer.getIntroduce());			
+			preparedStatement.setDate(3, computer.getDiscontinuited());		
+			preparedStatement.setInt(4,computer.getCompagnyId());			
+			System.out.println(preparedStatement);			
+			preparedStatement.executeUpdate();			
 			conn.closeConn();
+		
 			return true;
 		} catch (SQLException e) {
 
@@ -119,13 +143,18 @@ public class ComputerDAO {
 				computer.setDiscontinuited(generateComputer.getDate(4));
 				computer.setCompagnyId(generateComputer.getInt(5));
 				listcomp.add(computer);
-				conn.closeConn();
 			}
-			return true;
+				for(Computer comp : listcomp ) {
+					System.out.println(comp.toString());
+				}
+				conn.closeConn();
+			
+			
+		  return true;
+		  
 		} catch (SQLException e) {
 
-			return false;
-
+	      return false;
 		}
 	}
 }
