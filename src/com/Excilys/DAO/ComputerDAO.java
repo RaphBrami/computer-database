@@ -15,11 +15,11 @@ public final class ComputerDAO {
 	
 	private static volatile ComputerDAO instance = null;
 	
-	private ComputerDAO() {
+	ComputerDAO() {
 
 		
 	}
-	public final static ComputerDAO getInstance() {
+	public static ComputerDAO getInstance() {
    
         if (ComputerDAO.instance == null) {
      
@@ -29,11 +29,9 @@ public final class ComputerDAO {
              }
            }
         }
-        return ComputerDAO.instance;
+     return ComputerDAO.instance;
     }
-	
-
-	public Computer getComputer(int id) {
+	public static Computer getComputer(int id) {
 		Connexion conn = new Connexion();
 		Computer computer = new Computer();
 		conn.connect();
@@ -133,6 +131,7 @@ public final class ComputerDAO {
 		String select_All = "SELECT * FROM computer";
 		conn.connect();
 		try {
+			
 			PreparedStatement preparedStatement = conn.getConn().prepareStatement(select_All);
 			ResultSet generateComputer = preparedStatement.executeQuery();
 			while (generateComputer.next()) {
@@ -148,13 +147,12 @@ public final class ComputerDAO {
 					System.out.println(comp.toString());
 				}
 				conn.closeConn();
-			
-			
+
 		  return true;
 		  
 		} catch (SQLException e) {
 
-	      return false;
-		}
-	}
+	      return false;	      
+	  }
+    }
 }
