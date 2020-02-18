@@ -5,8 +5,8 @@ public class Computer  {
 	
 	private String name;
 	private int id;
-	private Date introduced;
-	private Date discontinuited;
+	private LocalDate introduced;
+	private LocalDate discontinuited;
 	private int companyId;
 	
 	/*
@@ -28,15 +28,15 @@ public class Computer  {
 		this.id =id;
 		return this;
 	}
-	public Computer setIntroduced(Date introduced) {
+	public Computer setIntroduced(LocalDate introduced) {
 		
 		this.introduced = introduced;
 		return this;
 	}
 	
-	public Computer setDiscontinuited(Date discontinuted) {
+	public Computer setDiscontinuited(LocalDate discontinuted) {
 		
-		this.discontinuited= discontinuited;
+		this.discontinuited=discontinuited;
 		return this;
 	}
 	
@@ -55,11 +55,11 @@ public class Computer  {
 
 		return this.id;
 	}
-	public Date getIntroduce() {
+	public LocalDate getIntroduce() {
 		
 		return this.introduced;
 	}
-	public Date getDiscontinuited() {
+	public LocalDate getDiscontinuited() {
 
 		return this.discontinuited;
 	}
