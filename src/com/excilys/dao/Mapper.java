@@ -1,4 +1,4 @@
-package com.Excilys.DAO;
+package com.excilys.dao;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -141,7 +141,7 @@ public class Mapper {
 				PreparedStatement preparedStatement = conn.getConn().prepareStatement(select_All);
 				ResultSet generateComputer = preparedStatement.executeQuery();	
 				generateComputer.next();
-				count = generateComputer.getInt(0);
+				count = generateComputer.getInt(1);
 				preparedStatement.close();
 				conn.closeConn();
 

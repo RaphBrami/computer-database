@@ -1,4 +1,4 @@
-package com.Excilys.DAO;
+package com.excilys.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -90,7 +90,7 @@ public final class ComputerDAO {
 		
 		Connexion conn = new Connexion();
 		Mapper mapper = new Mapper();
-		String select_All = "SELECT count(*) FROM computer ";
+		String select_All = "SELECT COUNT(*) FROM computer ";
 		conn.connect();
 		return mapper.countMapper(conn,mapper,select_All);
 		

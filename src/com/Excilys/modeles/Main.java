@@ -2,10 +2,10 @@ package com.Excilys.modeles;
 
 import java.sql.Date;
 
-import com.Excilys.DAO.ComputerDAO;
-import com.Excilys.DAO.Connexion;
-import com.Excilys.DAO.Services;
-import com.Excilys.DAO.UI;
+import com.excilys.dao.ComputerDAO;
+import com.excilys.dao.Connexion;
+import com.excilys.dao.Services;
+import com.excilys.dao.UI;
 
 public class Main {
 

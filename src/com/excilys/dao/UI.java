@@ -1,4 +1,4 @@
-package com.Excilys.DAO;
+package com.excilys.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -123,9 +123,12 @@ public final class UI {
 	
 	private void interfaceSelectAllPaginate() {
 		int i = 0;
-		
+		Scanner de = new Scanner(System.in);
+		System.out.println(Services.getInstance().ServiceCountAllComputer());
 		while(i*20 < Services.getInstance().ServiceCountAllComputer()) {
 			Services.getInstance().ServiceSelectAll(Optional.of(20),Optional.of(i));
+			System.out.println("appuyer sur entrez pour passer à la page suivante");
+			de.nextLine();
 			i++;
 		}
 		

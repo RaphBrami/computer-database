@@ -1,4 +1,4 @@
-package com.Excilys.DAO;
+package com.excilys.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
