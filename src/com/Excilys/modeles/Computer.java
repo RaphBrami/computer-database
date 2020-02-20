@@ -36,7 +36,7 @@ public class Computer  {
 	
 	public Computer setDiscontinuited(LocalDate discontinuted) {
 		
-		this.discontinuited=discontinuited;
+		this.discontinuited = discontinuted;
 		return this;
 	}
 	
@@ -55,7 +55,7 @@ public class Computer  {
 
 		return this.id;
 	}
-	public LocalDate getIntroduce() {
+	public LocalDate getIntroduced() {
 		
 		return this.introduced;
 	}
@@ -66,7 +66,8 @@ public class Computer  {
 	public int  getCompagnyId() {
 		return this.companyId;
 	
-}
+	}
+	
 	@Override
 	public String toString() {
 		return "Computer [name=" + name + ", id=" + id + ", introduced=" + introduced

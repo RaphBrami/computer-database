@@ -24,6 +24,7 @@ public class CompagnieDAO {
 				  company.setId(generateComputer.getInt(1));
 				  company.setName(generateComputer.getString(2));	
 				  listcomp.add(company);
+				  preparedStatement.close();
 				  conn.closeConn();
 			}
 		return true ;

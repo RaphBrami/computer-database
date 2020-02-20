@@ -33,7 +33,6 @@ public class Connexion {
     	} catch(SQLException e ){
     		
     		e.printStackTrace();
-    	}
-    
+    	}   
     }
 }

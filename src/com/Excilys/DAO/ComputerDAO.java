@@ -34,8 +34,8 @@ public final class ComputerDAO {
         }
      return ComputerDAO.instance;
     }
-	public static Computer getComputer(int id) {
-		String affichage = "SELECT * FROM Computer where id=?";
+	public Computer getComputer(int id) {
+		String affichage = "SELECT computer.id , computer.name , computer.introduced , computer.discontinued , computer.company_id FROM computer WHERE id=?;";
 		Connexion conn = new Connexion();
 		Computer computer = new Computer();
 		Mapper map = new Mapper();
@@ -53,33 +53,32 @@ public final class ComputerDAO {
 		
 	}
 
-	public boolean update(Computer computer) {
+	public void update(Computer computer) {
 		Connexion conn = new Connexion();
 		Mapper mapper = new Mapper();
 		conn.connect();
-		String update = "UPDATE Computer SET name=? , introduced =? ,discontinued =? ,company_id=? WHERE id = ?";
-		return mapper.updateMapper(conn, update, computer);
-
+		String update = "UPDATE computer SET name = ? , introduced = ?  ,discontinued = ? ,company_id = ? WHERE id = ?";
+		mapper.updateMapper(conn, update, computer);
+		
 	}
 
 	public boolean insert(Computer computer) {
 		Connexion conn = new Connexion();
 		Mapper mapper = new Mapper();
 		conn.connect();
-		String insert = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (? ,?,?,?)";
+		String insert = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
 		return mapper.insertMapper(conn, insert, computer);
 		
 		
 		
 	}
 
-	public boolean select_All() {
+	public void select_All() {
 		Connexion conn = new Connexion();
 		Mapper mapper = new Mapper();
 		String select_All = "SELECT * FROM computer";
 		conn.connect();
-		return mapper.select_allMapper(conn, select_All);
+		mapper.select_allMapper(conn, select_All);
 		
-	
    }
 }

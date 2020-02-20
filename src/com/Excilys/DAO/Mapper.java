@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,14 @@ public class Mapper {
 	PreparedStatement preparedStatement = conn.getConn().prepareStatement(affichage);
 	preparedStatement.setInt(1, id);
 	ResultSet generateComputer = preparedStatement.executeQuery();
-
+	
+	if(generateComputer.first()) {
 	computer.setId(generateComputer.getInt(1));
 	computer.setName(generateComputer.getString(2));
 	computer.setIntroduced(generateComputer.getTimestamp(3).toLocalDateTime().toLocalDate());
 	computer.setDiscontinuited(generateComputer.getTimestamp(4).toLocalDateTime().toLocalDate());
-	computer.setCompagnyId(generateComputer.getInt(5));	
-	
+	computer.setCompagnyId(generateComputer.getInt(5));
+	}
 	
 	} catch(SQLException e) {
 		
@@ -51,25 +53,24 @@ public class Mapper {
 		}	
 	}
 	
-	public boolean updateMapper(Connexion conn,String update,Computer computer) {
+	public void updateMapper(Connexion conn,String update,Computer computer) {
 		
 		try {
 			
 			PreparedStatement preparedStatement = conn.getConn().prepareStatement(update);
-			preparedStatement.setInt(1, computer.getid());
-			preparedStatement.setString(2, computer.getname());
-			preparedStatement.setTimestamp(3, computer.getIntroduce()!=null?Timestamp.valueOf( computer.getIntroduce().atTime(LocalTime.MIDNIGHT)):null);
-			preparedStatement.setTimestamp(4, computer.getDiscontinuited()!=null?Timestamp.valueOf( computer.getDiscontinuited().atTime(LocalTime.MIDNIGHT)):null);
-			preparedStatement.setInt(5, computer.getCompagnyId());
+			preparedStatement.setInt(5, computer.getid());
+			preparedStatement.setString(1, computer.getname());
+			preparedStatement.setTimestamp(2, computer.getIntroduced()!=null?Timestamp.valueOf( computer.getIntroduced().atTime(LocalTime.MIDNIGHT)):null);
+			preparedStatement.setTimestamp(3, computer.getDiscontinuited()!=null?Timestamp.valueOf( computer.getDiscontinuited().atTime(LocalTime.MIDNIGHT)):null);
+			preparedStatement.setInt(4, computer.getCompagnyId());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			conn.closeConn();
-			return true;
 
 		} catch (SQLException e) {
 			
 			conn.closeConn();
-			return false;
+			
 	   }		
 	}
 	
@@ -78,10 +79,9 @@ public class Mapper {
 		try {
 			PreparedStatement preparedStatement = conn.getConn().prepareStatement(insert);
 			preparedStatement.setString(1, computer.getname());
-			preparedStatement.setTimestamp(2,computer.getIntroduce()!=null?Timestamp.valueOf(computer.getIntroduce().atTime(LocalTime.MIDNIGHT)):null);			
+			preparedStatement.setTimestamp(2,computer.getIntroduced()!=null?Timestamp.valueOf(computer.getIntroduced().atTime(LocalTime.MIDNIGHT)):null);			
 			preparedStatement.setTimestamp(3,computer.getDiscontinuited()!=null?Timestamp.valueOf(computer.getDiscontinuited().atTime(LocalTime.MIDNIGHT)):null);		
-			preparedStatement.setInt(4,computer.getCompagnyId());			
-			System.out.println(preparedStatement);			
+			preparedStatement.setInt(4,computer.getCompagnyId());					
 			preparedStatement.executeUpdate();	
 			preparedStatement.close();
 			conn.closeConn();
@@ -95,23 +95,35 @@ public class Mapper {
     }
 	
 	public boolean select_allMapper(Connexion conn , String select_All) {
-		List<Computer> listcomp = new ArrayList<Computer>();
+		ArrayList<Computer> listcomp = new ArrayList<Computer>();
 	try {
 			
 			PreparedStatement preparedStatement = conn.getConn().prepareStatement(select_All);
 			ResultSet generateComputer = preparedStatement.executeQuery();
+			
 			while (generateComputer.next()) {
 				Computer computer = new Computer();
-				computer.setId(generateComputer.getInt(1));
-				computer.setName(generateComputer.getString(2));
-				computer.setIntroduced(generateComputer.getTimestamp(3).toLocalDateTime().toLocalDate());
-				computer.setDiscontinuited(generateComputer.getTimestamp(4).toLocalDateTime().toLocalDate());
-				computer.setCompagnyId(generateComputer.getInt(5));
+				int id = generateComputer.getInt(1);
+				String name = generateComputer.getString(2);
+				LocalDate introduced = generateComputer.getTimestamp(3)!=null?generateComputer.getTimestamp("introduced").toLocalDateTime().toLocalDate():null;
+				LocalDate discontinued = generateComputer.getTimestamp(4)!=null?generateComputer.getTimestamp("discontinued").toLocalDateTime().toLocalDate():null;
+				int company_id = generateComputer.getInt(5);
+				
+				computer.setId(id);
+				computer.setName(name);
+				computer.setIntroduced(introduced);
+				computer.setDiscontinuited(discontinued);
+				computer.setCompagnyId(company_id);
+				
 				listcomp.add(computer);
+				
 			}
+			
 				for(Computer comp : listcomp ) {
 					System.out.println(comp.toString());
 				}
+				System.out.println(listcomp);
+				preparedStatement.close();
 				conn.closeConn();
 
 		  return true;
@@ -119,6 +131,7 @@ public class Mapper {
 		} catch (SQLException e) {
 
 		  conn.closeConn();
+		  
 	      return false;	   
 		}	
 	}
