@@ -14,7 +14,6 @@ public class Connexion {
         String BddName = "computer-database-db";
         String url = "jdbc:mysql://localhost:3306/computer-database-db?useSSL=false";
         try{
-   
             conn = DriverManager.getConnection(url, user, mdp);
             System.out.println("Connexion ok");
         }catch(SQLException e){

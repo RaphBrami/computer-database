@@ -1,5 +1,6 @@
 package com.Excilys.DAO;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.Excilys.modeles.Computer;
 
@@ -94,10 +96,12 @@ public class Mapper {
        }
     }
 	
-	public boolean select_allMapper(Connexion conn , String select_All) {
+	public void select_allMapper(Connexion conn , String select_All ) {
 		ArrayList<Computer> listcomp = new ArrayList<Computer>();
+		
+
 	try {
-			
+		
 			PreparedStatement preparedStatement = conn.getConn().prepareStatement(select_All);
 			ResultSet generateComputer = preparedStatement.executeQuery();
 			
@@ -116,24 +120,41 @@ public class Mapper {
 				computer.setCompagnyId(company_id);
 				
 				listcomp.add(computer);
-				
-			}
-			
-				for(Computer comp : listcomp ) {
-					System.out.println(comp.toString());
-				}
-				System.out.println(listcomp);
+				System.out.println(computer);
+			} 
 				preparedStatement.close();
 				conn.closeConn();
 
-		  return true;
+	
 		  
 		} catch (SQLException e) {
 
 		  conn.closeConn();
-		  
-	      return false;	   
-		}	
+		}
+		
 	}
-}
+	public int  countMapper(Connexion conn,Mapper mappeur,String select_All) {
+			
+			int count = 0;
+		try {
+			
+				PreparedStatement preparedStatement = conn.getConn().prepareStatement(select_All);
+				ResultSet generateComputer = preparedStatement.executeQuery();	
+				generateComputer.next();
+				count = generateComputer.getInt(0);
+				preparedStatement.close();
+				conn.closeConn();
+
+		
+			  
+			} catch (SQLException e) {
+
+			  conn.closeConn();
+			}
+		return count;
+		}
+		
+		
+	}
+
 

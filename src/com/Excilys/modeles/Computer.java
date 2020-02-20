@@ -15,6 +15,7 @@ public class Computer  {
 	public Computer() {
 
 	}
+	
 	/*
 	 * Accesseurs
 	 */
@@ -73,5 +74,4 @@ public class Computer  {
 		return "Computer [name=" + name + ", id=" + id + ", introduced=" + introduced
 				+ ", discontinuited=" + discontinuited + ", companyId=" + companyId + "]";
 	}
-
 }

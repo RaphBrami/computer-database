@@ -38,4 +38,10 @@ public class Compagnie {
 		
 		return this.id;
 	}
+	
+	@Override
+	public String toString() {
+		return "Company [,id=" + id + ", name=" + name + "]";
+	}
+	
 }

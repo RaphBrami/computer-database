@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.Excilys.modeles.Computer;
 
@@ -73,12 +74,26 @@ public final class ComputerDAO {
 		
 	}
 
-	public void select_All() {
+	public void select_All(Optional<Integer> taille, Optional<Integer> page) {
 		Connexion conn = new Connexion();
 		Mapper mapper = new Mapper();
-		String select_All = "SELECT * FROM computer";
+		String select_All = "SELECT * FROM computer ";
+		if(taille.isPresent() && page.isPresent()) {
+			
+			select_All += " LIMIT "+taille.get()+" OFFSET "+(taille.get()*page.get());
+		}
 		conn.connect();
 		mapper.select_allMapper(conn, select_All);
 		
    }
+	public int count() {
+		
+		Connexion conn = new Connexion();
+		Mapper mapper = new Mapper();
+		String select_All = "SELECT count(*) FROM computer ";
+		conn.connect();
+		return mapper.countMapper(conn,mapper,select_All);
+		
+	}
 }
+

@@ -1,5 +1,7 @@
 package com.Excilys.DAO;
 
+import java.util.Optional;
+
 import com.Excilys.modeles.*;
 
 public class Services {
@@ -29,7 +31,7 @@ private static volatile Services instance = null;
 	
 	}
 	
-	public boolean ServiceDelete( int id ) {
+	public boolean ServiceDelete(int id) {
 	 return ComputerDAO.getInstance().delete(id);
 		
 	}
@@ -42,8 +44,18 @@ private static volatile Services instance = null;
 	return ComputerDAO.getInstance().insert(computer);
 	}
 	
-	public void ServiceSelectAll() {
-	 ComputerDAO.getInstance().select_All();
+	public void ServiceSelectAll(Optional<Integer> taille, Optional<Integer> page) {
+	 ComputerDAO.getInstance().select_All(taille, page);
+	}
+	public void ServiceCompanySelect() {
+	CompanyDAO.getInstance().select_All();
+	 
+	}
+	public int ServiceCountAllComputer() {
+		
+	return	ComputerDAO.getInstance().count();
+		
 	}
 	
 }
+

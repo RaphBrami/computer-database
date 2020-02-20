@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import com.Excilys.modeles.Computer;
 
@@ -18,8 +19,6 @@ public final class UI {
 	private static volatile UI instance = null;
 	
 	private UI() {
-		
-		
 		
 	}
 	public static UI getInstance() {
@@ -42,7 +41,7 @@ public final class UI {
 		ComputerDAO.getInstance();
 		
 		System.out.println("Bonjour vous etes connectés à la base de donnée ");
-		System.out.println("\n \t Veuillez saisir une action : delete , insert , select_all, update , select_ordinateur");
+		System.out.println("\n \t Veuillez saisir une action : delete , insert , select_allComputer, update , select_ordinateur,select_allCompany");
 		
 		System.out.println();
 		Scanner scan = new Scanner(System.in);
@@ -61,9 +60,9 @@ public final class UI {
 			
 		break ;
 		
-		case "select_all" :
+		case "select_allComputer" :
 			System.out.println("Affichage de tout les Ordinateurs");
-			interfaceSelect_all();
+			interfaceSelectAllPaginate();
 			retourMenu();
 	
 		break;
@@ -81,10 +80,15 @@ public final class UI {
 			interfaceSelectOrdinateur();
 			retourMenu();
 		break;
+		case "select_allCompany":
+			
+			System.out.println("Affichage de toutes les Company");
+			interfaceAllCompany();
+			retourMenu();
 		
 		default :
 			System.out.println("veuilez ressaisir un choix");
-			retourMenu();
+		
 		}
 	}	
 	private void interfaceInsertComputer() {
@@ -117,8 +121,20 @@ public final class UI {
 			Services.getInstance().ServiceDelete(id);
 		}
 	
+	private void interfaceSelectAllPaginate() {
+		int i = 0;
+		
+		while(i*20 < Services.getInstance().ServiceCountAllComputer()) {
+			Services.getInstance().ServiceSelectAll(Optional.of(20),Optional.of(i));
+			i++;
+		}
+		
+	}
+	
 	private void interfaceSelect_all() {
-		Services.getInstance().ServiceSelectAll();
+	
+		Services.getInstance().ServiceSelectAll(Optional.empty(),Optional.empty());
+		
 				
 	}
 	
@@ -169,6 +185,12 @@ public final class UI {
 	return date;
 	
 	    }
+	
+	private void interfaceAllCompany() {
+		
+		Services.getInstance().ServiceCompanySelect();
+		retourMenu();
+	}
 	private void  retourMenu() {
 		
 		System.out.println("\n \t Voulez vous revenir au menu  (Y/N)?");
@@ -189,4 +211,5 @@ public final class UI {
 			retourMenu();
 		}	
 	} 
+	
 }
